@@ -17,11 +17,45 @@ PhishingBlocklist::~PhishingBlocklist(){
 }
 
 void PhishingBlocklist::resize(){
-    capacity = 2;
-    for(int i=0; i > capacity; i++){
+    capacity *= 2;
+    std::string* newEmails = new std::string[capacity];
+    for(int i=0; i < size; i++){
+        newEmails[i] = emails[i];
+    }
+    delete[];
+    emails = newEmails;
+}
 
+bool PhishingBlocklist::addEmail(const std::string& email){
+    if(contains(email)){
+        return false;
+    }
+    if(size == capacity){
+        resize();
+    }
+    emails[size++] = email;
+    return false;
+}
+
+bool PhishingBlocklist::removeEmail(const std::string& email){
+    for(int i=0; i < size; i++){
+        if(emails[i] == email){
+            for(int j = i; j < size - 1; j++){
+                // shift j to the left 
+                emails[j] = emails[j + 1];
+            }
+            size--;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool PhishingBlocklist::contains(const std::string& email)const{
+    for(int i=0; i < size; i++){
+        if(emails[i] == email) {
+            return true;
+        }
     }
 }
 
-
-}
