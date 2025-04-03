@@ -22,7 +22,7 @@ void PhishingBlocklist::resize(){
     for(int i=0; i < size; i++){
         newEmails[i] = emails[i];
     }
-    delete[];
+    delete[] emails;
     emails = newEmails;
 }
 
@@ -57,5 +57,15 @@ bool PhishingBlocklist::contains(const std::string& email)const{
             return true;
         }
     }
+    return false;
 }
 
+void PhishingBlocklist::printBlocklist() const{
+    if(size == 0){
+        std::cout << "List is empty" << endl;
+        return;
+    }
+    for(int i = 0; i < size; i++){
+        std::cout << emails[i] << std::endl;
+    }
+}
