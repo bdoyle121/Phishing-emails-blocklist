@@ -1,21 +1,41 @@
+// Brian Doyle 
+// April 3rd 2025
+// This is the Main file for the Phishing block list program.
+
 #include<iostream>
 #include<string>
 #include "Phishingblocklist.h"
 using namespace std;
 
-// This fucntion will be passed to the main function and will be displayed when the program runs until the user quits the program. 
-void showMenu()
-{
-    cout << "\nPhishing email list Menu" << endl;
-    cout << "\nPlease enter the choice an option that you would like to take" << endl;
-    cout << "\n 1. Add a new email to the list\n";
-    cout << "\n 2. Remove an email/emails\n";
-    cout << "\n 3. Display the List\n";
-    cout << "\n 4. Quit";
-    cout << endl;
-}
+int main() {
+    PhishingBlocklist blocklist;
 
-int main() 
-{
-    
+    // Test adding phishing emails
+    cout << "Adding Emails:\n";
+    cout << (blocklist.addEmail("phish1@malicious.com") ? "Added" : "Duplicate") << "\n";
+    cout << (blocklist.addEmail("scam@fraud.net") ? "Added" : "Duplicate") << "\n";
+    cout << (blocklist.addEmail("attack@phishers.org") ? "Added" : "Duplicate") << "\n";
+    cout << (blocklist.addEmail("phish1@malicious.com") ? "Added" : "Duplicate") << " (duplicate test)\n";
+
+    // Print current blocklist
+    cout << "\nCurrent Phishing Blocklist:\n";
+    blocklist.printBlocklist();
+
+    // Test membership
+    string searchEmail = "scam@fraud.net";
+    cout << "\nSearching for " << searchEmail << ": "
+         << (blocklist.contains(searchEmail) ? "Found" : "Not Found") << "\n";
+
+    // Test removal
+    cout << "\nRemoving 'attack@phishers.org'... "
+         << (blocklist.removeEmail("attack@phishers.org") ? "Success" : "Not Found") << "\n";
+
+    cout << "Removing 'unknown@phishers.org'... "
+         << (blocklist.removeEmail("unknown@phishers.org") ? "Success" : "Not Found") << "\n";
+
+    // Print final blocklist
+    cout << "\nBlocklist after removals:\n";
+    blocklist.printBlocklist();
+
+    return 0;
 }
